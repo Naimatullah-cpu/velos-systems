@@ -3,232 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velos Systems | Layer-4 Execution Floor</title>
+    <title>Velos Systems | Deterministic Execution Floor</title>
     <style>
         :root {
-            --bg-color: #050505;
-            --surface-color: #111111;
-            --border-color: #333333;
-            --text-primary: #EAEAEA;
-            --text-secondary: #888888;
-            --accent-glow: rgba(0, 255, 204, 0.15);
-            --accent-color: #00FFCC; /* Cyber Cyan */
-            --alert-color: #FF3366;
+            --bg-base: #050505;
+            --bg-surface: #0a0a0c;
+            --border-dim: #1f1f23;
+            --border-glow: #30363d;
+            --text-main: #e6edf3;
+            --text-muted: #7d8590;
+            --accent-cyan: #00f0ff;
+            --accent-red: #ff3366;
+            --accent-green: #3fb950;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Fira Code', 'Courier New', Courier, monospace;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-main);
             line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+            padding: 40px 20px;
         }
 
-        .container {
-            max-width: 900px;
-            width: 100%;
-            padding: 60px 20px;
-        }
+        .container { max-width: 1100px; margin: 0 auto; }
 
-        /* Top Status Bar */
-        .status-bar {
+        /* Top Navigation / Status */
+        .nav-status {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Courier New', Courier, monospace;
+            border-bottom: 1px solid var(--border-dim);
+            padding-bottom: 20px;
+            margin-bottom: 60px;
+            font-family: var(--font-mono);
             font-size: 12px;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 40px;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .status-indicator {
+        .status-badge {
+            color: var(--accent-green);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .pulse {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-color);
+        .dot {
+            width: 8px; height: 8px;
+            background-color: var(--accent-green);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-color);
-            animation: pulse-animation 2s infinite;
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse-animation {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* Hero Section */
-        header {
-            margin-bottom: 50px;
-        }
-
         h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            letter-spacing: -1.5px;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, #FFFFFF, #888888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            max-width: 700px;
-        }
-
-        /* Data Grids */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .panel {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .panel:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .panel::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--accent-color);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .panel:hover::before {
-            opacity: 1;
-        }
-
-        .panel-label {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 11px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .panel h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #FFFFFF;
-        }
-
-        .panel p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+            line-height: 1.1;
+            letter-spacing: -2px;
             margin-bottom: 20px;
         }
-
-        /* Tech Specs List */
-        .specs-list {
-            list-style: none;
+        
+        .highlight { color: var(--accent-cyan); }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 60px;
         }
 
-        .specs-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.9rem;
+        /* Live Terminal Section */
+        .terminal-container {
+            background: #000;
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+        }
+
+        .terminal-header {
+            background: #0d1117;
+            padding: 10px 20px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-dim);
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
-        .specs-list li:last-child {
-            border-bottom: none;
+        .terminal-body {
+            padding: 20px;
+            height: 300px;
+            overflow-y: hidden;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--accent-cyan);
+            position: relative;
         }
 
-        .specs-list strong {
-            color: var(--text-primary);
+        .terminal-body::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 60px;
+            background: linear-gradient(transparent, #000);
         }
 
-        .code-block {
-            font-family: 'Courier New', Courier, monospace;
-            background: #000;
-            color: var(--accent-color);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.85rem;
-            border: 1px solid #222;
+        .log-line { margin-bottom: 8px; opacity: 0.9; }
+        .log-time { color: var(--text-muted); margin-right: 15px; }
+        .log-action { color: var(--accent-red); font-weight: bold; }
+        .log-hash { color: var(--text-muted); font-size: 11px; }
+
+        /* Data Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
         }
+
+        .metric-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-dim);
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--text-main);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-sub {
+            font-size: 12px;
+            color: var(--accent-green);
+            font-family: var(--font-mono);
+        }
+
+        /* Architecture Comparison */
+        .comparison-section {
+            border-top: 1px solid var(--border-dim);
+            padding-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .comp-card {
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-dim);
+        }
+
+        .comp-card h3 { font-size: 1.5rem; margin-bottom: 20px; }
+        .comp-card p { color: var(--text-muted); margin-bottom: 20px; }
+        
+        .comp-shango { background: rgba(255, 51, 102, 0.02); border-color: rgba(255, 51, 102, 0.2); }
+        .comp-velos { background: rgba(0, 240, 255, 0.02); border-color: rgba(0, 240, 255, 0.3); }
+
+        .tag-red { display: inline-block; padding: 4px 8px; background: rgba(255, 51, 102, 0.1); color: var(--accent-red); font-family: var(--font-mono); font-size: 11px; border-radius: 4px; }
+        .tag-cyan { display: inline-block; padding: 4px 8px; background: rgba(0, 240, 255, 0.1); color: var(--accent-cyan); font-family: var(--font-mono); font-size: 11px; border-radius: 4px; }
 
         /* Footer */
         footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-dim);
+            padding-top: 40px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
-        .footer-logo {
-            font-weight: 700;
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .auth-block {
-            text-align: right;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .auth-block span {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        @media (max-width: 600px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
-            footer { flex-direction: column; gap: 20px; text-align: left; }
-            .auth-block { text-align: left; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            footer { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
@@ -236,71 +214,134 @@
 
     <div class="container">
         
-        <!-- Top Telemetry Status -->
-        <div class="status-bar">
-            <div class="status-indicator">
-                <div class="pulse"></div>
-                <span>NODE: SECURE | ENFORCEMENT ACTIVE</span>
-            </div>
-            <div>SPEC: PEP-L4-EBPF // V.26.8</div>
+        <!-- Status Bar -->
+        <div class="nav-status">
+            <div>VELOS SYSTEMS // AGCP CONFORMANCE TRACK</div>
+            <div class="status-badge"><div class="dot"></div> LAYER-4 INTERDICTION ACTIVE</div>
         </div>
 
-        <!-- Hero Section -->
+        <!-- Hero -->
         <header>
-            <h1>Velos Systems.</h1>
-            <p class="subtitle">Deterministic Layer-4 Execution Floor & Bare-Metal Runtime Governance for Autonomous AI Infrastructure.</p>
+            <h1>The <span class="highlight">Execution Floor</span> for Enterprise AI.</h1>
+            <p class="subtitle">Middleware logging is an autopsy. We enforce deterministic, sub-microsecond authority at the Layer-4 network transport floor via Linux eBPF. Zero memory trail. Zero bypass capability.</p>
         </header>
 
-        <!-- Main Content Grids -->
-        <div class="grid-container">
-            
-            <!-- Architecture Panel -->
-            <div class="panel">
-                <span class="panel-label">01 // Architectural Doctrine</span>
-                <h2>The Boundary Proposition</h2>
-                <p><em>"Never ask the transport floor to become a philosopher."</em></p>
-                <p>Velos Systems decouples upstream cognitive reasoning and policy evaluation (Layer-7) from physical runtime enforcement (Layer-4). By anchoring execution boundaries directly to Linux kernel hooks (eBPF), Velos guarantees deterministic, sub-microsecond refusal at T=0 before state mutation can attach to physical infrastructure.</p>
+        <!-- Live eBPF Terminal -->
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>root@velos-kernel-pep:~# tail -f /sys/kernel/debug/tracing/trace_pipe</span>
+                <span>[ T=0 SYNCHRONOUS CAPTURE ]</span>
             </div>
-
-            <!-- Specs Panel -->
-            <div class="panel">
-                <span class="panel-label">02 // Core Specifications</span>
-                <h2>Substrate Capabilities</h2>
-                <ul class="specs-list">
-                    <li>
-                        <strong>Kernel-Resident PEP</strong> 
-                        <span class="code-block">TC_ACT_SHOT</span>
-                    </li>
-                    <li>
-                        <strong>Mean Execution Latency</strong> 
-                        <span>&lt; 4.0 µs</span>
-                    </li>
-                    <li>
-                        <strong>Telemetry Architecture</strong> 
-                        <span>Asynchronous Ring Buffers</span>
-                    </li>
-                    <li>
-                        <strong>Failure Posture</strong> 
-                        <span style="color: var(--alert-color);">FAIL-CLOSED (T=0)</span>
-                    </li>
-                </ul>
+            <div class="terminal-body" id="terminal-output">
+                <!-- Logs will be injected here via JS -->
             </div>
         </div>
 
-        <!-- Footer / Signature -->
+        <!-- Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">&lt; 4.0 µs</div>
+                <div class="metric-label">Mean Interdiction Latency</div>
+                <div class="metric-sub">O(1) Map Lookup overhead</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">TC_ACT_SHOT</div>
+                <div class="metric-label">Kernel-Level Enforcement</div>
+                <div class="metric-sub">Packet dropped before consequence</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Bypass Routes</div>
+                <div class="metric-sub">Mathematically isolated execution</div>
+            </div>
+        </div>
+
+        <!-- Doctrine / Comparison -->
+        <div class="comparison-section">
+            <h2>Why Logging Is Not Governing</h2>
+            <div class="comparison-grid">
+                
+                <div class="comp-card comp-shango">
+                    <h3>Middleware & Loggers</h3>
+                    <p>Standard architectures evaluate authority at the application layer (Layer-7) and record outcomes to a ledger after execution.</p>
+                    <div class="tag-red">POST-HOC DOCUMENTATION</div>
+                    <ul style="list-style: none; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
+                        <li style="margin-bottom: 10px;">× Agent reaches the network</li>
+                        <li style="margin-bottom: 10px;">× Consequence occurs before receipt</li>
+                        <li>× "Audit trails" require forensic guesswork</li>
+                    </ul>
+                </div>
+
+                <div class="comp-card comp-velos">
+                    <h3>Velos Layer-4 eBPF</h3>
+                    <p>Velos binds canonical validity directly to the transport socket. If invariants fracture, the packet dies on the wire instantly.</p>
+                    <div class="tag-cyan">T=0 DETERMINISTIC REFUSAL</div>
+                    <ul style="list-style: none; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
+                        <li style="margin-bottom: 10px;">✓ Substrate fails closed</li>
+                        <li style="margin-bottom: 10px;">✓ Asynchronous ring-buffer telemetry</li>
+                        <li>✓ Mapped to EU AI Act Art. 14</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
         <footer>
             <div>
-                <div class="footer-logo">VELOS SYSTEMS</div>
-                <p>Karachi, Sindh, Pakistan<br>
-                Founder & Principal Architect: Naimatullah</p>
+                <strong>VELOS SYSTEMS</strong><br>
+                Karachi, Sindh, Pakistan<br>
+                Founder & Principal Architect: Naimatullah
             </div>
-            <div class="auth-block">
-                <span>[ ALIGNMENT: AEGF / AGCP CONFORMANCE TRACK ]</span>
-                <span>[ AUTH: DETERMINISTIC EXECUTION ]</span>
+            <div style="text-align: right;">
+                SHA-256 Chain-Link: VALIDATED<br>
+                Independently mapped for EVIDE verification.
             </div>
         </footer>
 
     </div>
 
+    <!-- Terminal Simulation Script -->
+    <script>
+        const terminal = document.getElementById('terminal-output');
+        
+        function generateHash() {
+            return Array.from({length: 40}, () => Math.floor(Math.random() * 16).toString(16)).join('');
+        }
+
+        function addLogLine() {
+            const now = new Date();
+            const time = now.toISOString().split('T')[1].slice(0, 11);
+            
+            const isRefusal = Math.random() > 0.7;
+            let logHTML = '';
+
+            if (isRefusal) {
+                logHTML = `<div class="log-line">
+                    <span class="log-time">[${time}]</span>
+                    <span class="log-action">REFUSAL (TC_ACT_SHOT)</span> — Invalid invariant state.
+                    <br><span class="log-hash">↳ MERKLE ROOT: ${generateHash()} | LATENCY: ${(Math.random() * 1 + 2).toFixed(2)}µs</span>
+                </div>`;
+            } else {
+                logHTML = `<div class="log-line">
+                    <span class="log-time">[${time}]</span>
+                    <span style="color: var(--accent-green);">PASS (TC_ACT_OK)</span> — Authorization valid.
+                    <br><span class="log-hash">↳ RECEIPT ID: ${generateHash()} | LATENCY: ${(Math.random() * 1 + 1).toFixed(2)}µs</span>
+                </div>`;
+            }
+
+            terminal.insertAdjacentHTML('beforeend', logHTML);
+
+            // Keep only last 6 lines to simulate scrolling
+            if (terminal.children.length > 6) {
+                terminal.removeChild(terminal.firstChild);
+            }
+        }
+
+        // Add a line every 800ms
+        setInterval(addLogLine, 800);
+        // Initial population
+        for(let i=0; i<6; i++) addLogLine();
+    </script>
 </body>
 </html>
